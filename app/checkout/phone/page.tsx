@@ -7,7 +7,7 @@ import { getFirebase } from '@/lib/firebase';
 import { RecaptchaVerifier, signInWithPhoneNumber, type ConfirmationResult } from 'firebase/auth';
 
 declare global {
-  interface Window { _confirm?: ConfirmationResult; _recaptcha?: RecaptchaVerifier; }
+  interface Window { _confirm?: ConfirmationResult; }
 }
 
 export default function PhoneStep() {
@@ -15,30 +15,45 @@ export default function PhoneStep() {
   const [digits, setDigits] = useState('');
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState('');
-  const recaptchaContainer = useRef<HTMLDivElement>(null);
+  const recaptchaRef = useRef<HTMLDivElement>(null);
+  const verifierRef = useRef<RecaptchaVerifier | null>(null);
 
+  // Clean up the verifier on unmount so we don't leak invisible widgets
+  // and so re-mounts always get a fresh one.
   useEffect(() => {
-    const fb = getFirebase();
-    if (!fb || !recaptchaContainer.current) return;
-    if (!window._recaptcha) {
-      window._recaptcha = new RecaptchaVerifier(fb.auth, recaptchaContainer.current, {
-        size: 'invisible',
-      });
-    }
+    return () => {
+      try { verifierRef.current?.clear(); } catch {}
+      verifierRef.current = null;
+    };
   }, []);
+
+  const ensureVerifier = (): RecaptchaVerifier => {
+    if (verifierRef.current) return verifierRef.current;
+    const fb = getFirebase();
+    if (!fb) throw new Error('Firebase not initialized');
+    if (!recaptchaRef.current) throw new Error('reCAPTCHA container not mounted');
+    const v = new RecaptchaVerifier(fb.auth, recaptchaRef.current, { size: 'invisible' });
+    verifierRef.current = v;
+    return v;
+  };
 
   const submit = async () => {
     if (digits.length !== 10) { setErr('Enter a 10-digit number'); return; }
     setLoading(true); setErr('');
     try {
       const fb = getFirebase();
-      if (!fb || !window._recaptcha) throw new Error('Auth not ready');
+      if (!fb) throw new Error('Auth not ready');
+      const verifier = ensureVerifier();
       const phone = `+91${digits}`;
-      const confirmation = await signInWithPhoneNumber(fb.auth, phone, window._recaptcha);
+      const confirmation = await signInWithPhoneNumber(fb.auth, phone, verifier);
       window._confirm = confirmation;
       sessionStorage.setItem('numo_phone', phone);
       router.push('/checkout/otp');
     } catch (e: any) {
+      console.error('[phone submit]', e);
+      // If the verifier got into a bad state, throw it away — next click rebuilds it
+      try { verifierRef.current?.clear(); } catch {}
+      verifierRef.current = null;
       setErr(e?.message || 'Could not send OTP');
       setLoading(false);
     }
@@ -72,7 +87,7 @@ export default function PhoneStep() {
         />
       </div>
       {err && <p className="text-warning text-sm mt-3">{err}</p>}
-      <div ref={recaptchaContainer} id="recaptcha-container" />
+      <div ref={recaptchaRef} id="recaptcha-container" />
     </Screen>
   );
 }
