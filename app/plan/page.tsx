@@ -32,7 +32,7 @@ export default function PlanReveal() {
   const dateStr = goalDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 
   const startTrial = () => {
-    trackPixel('InitiateCheckout', { currency: 'INR', value: 1 });
+    trackPixel('InitiateCheckout', { currency: 'INR', value: 5 });
     router.push('/checkout/phone');
   };
 
@@ -84,13 +84,13 @@ export default function PlanReveal() {
           </div>
           <div className="flex items-start justify-center">
             <span className="text-2xl font-bold text-green mt-2">₹</span>
-            <span className="text-6xl font-extrabold text-green leading-none">1</span>
+            <span className="text-6xl font-extrabold text-green leading-none">5</span>
           </div>
           <div className="text-sm text-inkSoft mt-1">for 1 day · full access · cancel anytime</div>
         </div>
 
         <button onClick={startTrial} className="btn-primary mt-4">
-          Start ₹1 Trial →
+          Start ₹5 Trial →
         </button>
 
         <p className="text-xs text-inkMuted text-center mt-3">
