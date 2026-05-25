@@ -1,0 +1,54 @@
+'use client';
+
+import { useEffect } from 'react';
+import { trackPixel } from '@/lib/pixel';
+
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=ai.numo.app';
+
+export default function Success() {
+  useEffect(() => {
+    const paymentId = typeof window !== 'undefined' ? sessionStorage.getItem('numo_payment_id') : null;
+    trackPixel('Purchase', { currency: 'INR', value: 1, content_name: 'numo_trial' }, paymentId || undefined);
+  }, []);
+
+  const phone = typeof window !== 'undefined' ? sessionStorage.getItem('numo_phone') : '';
+
+  return (
+    <main className="max-w-md mx-auto px-6 pt-16 pb-12 flex flex-col items-center text-center min-h-screen">
+      <div className="text-6xl mb-4">🎉</div>
+      <h1 className="text-3xl font-bold leading-tight">You're in!</h1>
+      <p className="mt-3 text-inkSoft">
+        Your trial is active. Now download the app to start tracking.
+      </p>
+
+      <div className="card mt-8 w-full">
+        <div className="text-sm text-inkSoft mb-1">Step 1</div>
+        <div className="font-semibold">Download Numo from Google Play</div>
+        <a
+          href={PLAY_STORE_URL}
+          className="btn-primary mt-4 block text-center"
+          target="_blank"
+          rel="noopener"
+        >
+          Open Play Store →
+        </a>
+      </div>
+
+      <div className="card mt-4 w-full">
+        <div className="text-sm text-inkSoft mb-1">Step 2</div>
+        <div className="font-semibold">Log in with this number</div>
+        <div className="mt-3 bg-greenSoft text-green font-bold py-3 px-4 rounded-xl text-center text-lg">
+          {phone || 'your phone number'}
+        </div>
+        <p className="text-xs text-inkMuted mt-2">
+          Use the same number — your plan and trial will be waiting.
+        </p>
+      </div>
+
+      <p className="text-xs text-inkMuted mt-8 max-w-xs">
+        Need help? Email{' '}
+        <a href="mailto:support@numo.ai" className="underline">support@numo.ai</a>
+      </p>
+    </main>
+  );
+}

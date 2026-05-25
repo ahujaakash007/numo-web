@@ -1,0 +1,78 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Screen } from '@/components/Screen';
+import { getFirebase } from '@/lib/firebase';
+import { RecaptchaVerifier, signInWithPhoneNumber, type ConfirmationResult } from 'firebase/auth';
+
+declare global {
+  interface Window { _confirm?: ConfirmationResult; _recaptcha?: RecaptchaVerifier; }
+}
+
+export default function PhoneStep() {
+  const router = useRouter();
+  const [digits, setDigits] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState('');
+  const recaptchaContainer = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fb = getFirebase();
+    if (!fb || !recaptchaContainer.current) return;
+    if (!window._recaptcha) {
+      window._recaptcha = new RecaptchaVerifier(fb.auth, recaptchaContainer.current, {
+        size: 'invisible',
+      });
+    }
+  }, []);
+
+  const submit = async () => {
+    if (digits.length !== 10) { setErr('Enter a 10-digit number'); return; }
+    setLoading(true); setErr('');
+    try {
+      const fb = getFirebase();
+      if (!fb || !window._recaptcha) throw new Error('Auth not ready');
+      const phone = `+91${digits}`;
+      const confirmation = await signInWithPhoneNumber(fb.auth, phone, window._recaptcha);
+      window._confirm = confirmation;
+      sessionStorage.setItem('numo_phone', phone);
+      router.push('/checkout/otp');
+    } catch (e: any) {
+      setErr(e?.message || 'Could not send OTP');
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Screen
+      title="Enter your phone number"
+      subtitle="We'll send a one-time code to verify."
+      footer={
+        <>
+          <button className="btn-primary" onClick={submit} disabled={loading || digits.length !== 10}>
+            {loading ? 'Sending OTP…' : 'Send code'}
+          </button>
+          <p className="text-xs text-inkMuted text-center mt-3">
+            Use the same number when you install the app — your plan & trial will be ready.
+          </p>
+        </>
+      }
+    >
+      <div className="flex items-center gap-3 border-2 border-border rounded-2xl p-4 bg-surface focus-within:border-green">
+        <span className="text-xl font-semibold">🇮🇳 +91</span>
+        <input
+          type="tel"
+          inputMode="numeric"
+          value={digits}
+          onChange={(e) => { setDigits(e.target.value.replace(/\D/g, '').slice(0, 10)); setErr(''); }}
+          placeholder="98765 43210"
+          className="flex-1 text-xl bg-transparent outline-none"
+          autoFocus
+        />
+      </div>
+      {err && <p className="text-warning text-sm mt-3">{err}</p>}
+      <div ref={recaptchaContainer} id="recaptcha-container" />
+    </Screen>
+  );
+}

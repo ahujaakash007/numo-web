@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  background-color: #FFF8F0;
+  color: #1A1A1A;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .btn-primary {
+    @apply w-full bg-green text-white font-semibold py-4 rounded-2xl text-lg active:opacity-80 transition;
+  }
+  .btn-secondary {
+    @apply w-full bg-surface text-ink font-semibold py-4 rounded-2xl text-lg border border-border;
+  }
+  .card {
+    @apply bg-surface border border-border rounded-2xl p-5;
+  }
+}
