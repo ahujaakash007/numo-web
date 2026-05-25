@@ -37,7 +37,7 @@ export default function PayStep() {
         amount: checkout.amount,
         currency: 'INR',
         name: 'Numo AI',
-        description: '1-Day Trial — ₹5 only',
+        description: '1-Day Trial — ₹1 only',
         order_id: checkout.orderId,
         customer_id: checkout.customerId,
         recurring: 1,
@@ -94,7 +94,7 @@ export default function PayStep() {
         <h1 className="text-2xl font-bold">
           {loading ? 'Opening payment…' : 'Razorpay closed'}
         </h1>
-        <p className="text-inkSoft mt-2">₹5 to activate your trial</p>
+        <p className="text-inkSoft mt-2">₹1 to activate your trial</p>
         {err && <p className="text-warning text-sm mt-4 max-w-xs">{err}</p>}
         {!loading && (
           <button onClick={openRazorpay} className="btn-primary mt-6 max-w-xs">

@@ -8,7 +8,7 @@ const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=ai.numo.ap
 export default function Success() {
   useEffect(() => {
     const paymentId = typeof window !== 'undefined' ? sessionStorage.getItem('numo_payment_id') : null;
-    trackPixel('Purchase', { currency: 'INR', value: 5, content_name: 'numo_trial' }, paymentId || undefined);
+    trackPixel('Purchase', { currency: 'INR', value: 1, content_name: 'numo_trial' }, paymentId || undefined);
   }, []);
 
   const phone = typeof window !== 'undefined' ? sessionStorage.getItem('numo_phone') : '';
