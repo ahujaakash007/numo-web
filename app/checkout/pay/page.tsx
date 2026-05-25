@@ -41,9 +41,6 @@ export default function PayStep() {
         order_id: checkout.orderId,
         customer_id: checkout.customerId,
         recurring: true,
-        // Explicitly enable all autopay-capable methods.
-        // UPI is auto-hidden by Razorpay on desktop (mandate requires UPI app),
-        // but on mobile this ensures GPay/PhonePe/Paytm show up first.
         method: {
           upi: 1,
           card: 1,
@@ -51,6 +48,32 @@ export default function PayStep() {
           wallet: 0,
           emi: 0,
           paylater: 0,
+        },
+        // Force-show UPI as a primary block with all flows.
+        // Without this, Razorpay's heuristics often hide UPI for autopay flows.
+        // - intent: opens GPay/PhonePe/Paytm app (mobile only)
+        // - collect: enter VPA, approve on phone (works desktop + mobile)
+        // - qr: scan with phone (desktop)
+        config: {
+          display: {
+            blocks: {
+              upi_block: {
+                name: 'Pay via UPI',
+                instruments: [
+                  { method: 'upi', flows: ['intent', 'collect', 'qr'] },
+                ],
+              },
+              other_block: {
+                name: 'Other payment methods',
+                instruments: [
+                  { method: 'card' },
+                  { method: 'netbanking' },
+                ],
+              },
+            },
+            sequence: ['block.upi_block', 'block.other_block'],
+            preferences: { show_default_blocks: false },
+          },
         },
         prefill: { contact: phone },
         theme: { color: '#2E7D32' },
