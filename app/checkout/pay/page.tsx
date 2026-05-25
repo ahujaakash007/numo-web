@@ -41,6 +41,17 @@ export default function PayStep() {
         order_id: checkout.orderId,
         customer_id: checkout.customerId,
         recurring: true,
+        // Explicitly enable all autopay-capable methods.
+        // UPI is auto-hidden by Razorpay on desktop (mandate requires UPI app),
+        // but on mobile this ensures GPay/PhonePe/Paytm show up first.
+        method: {
+          upi: 1,
+          card: 1,
+          netbanking: 1,
+          wallet: 0,
+          emi: 0,
+          paylater: 0,
+        },
         prefill: { contact: phone },
         theme: { color: '#2E7D32' },
         handler: async (resp: any) => {
