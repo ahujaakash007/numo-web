@@ -22,15 +22,18 @@ export default function OtpStep() {
   const submit = async () => {
     if (otp.length !== 6) { setErr('Enter the 6-digit code'); return; }
     setLoading(true); setErr('');
+    let stage = 'init';
     try {
       const phone = sessionStorage.getItem('numo_phone') || '';
       const confirm = window._confirm;
-      if (!confirm) throw new Error('OTP session expired — please try again');
+      if (!confirm) throw new Error('OTP session expired — please go back and request a new code');
 
+      stage = 'firebase-confirm';
       const credential = await confirm.confirm(otp);
       const idToken = await credential.user.getIdToken();
 
       // 1. Login on Numo backend (creates user if new)
+      stage = 'backend-login';
       const { data: auth } = await api.post<ApiResponse<AuthResp>>(
         '/auth/firebase-phone',
         { idToken, phone }
@@ -38,6 +41,7 @@ export default function OtpStep() {
       setToken(auth.accessToken);
 
       // 2. Save onboarding answers
+      stage = 'save-onboarding';
       await api.post('/onboarding', {
         goal: s.goal,
         gender: s.gender,
@@ -57,7 +61,10 @@ export default function OtpStep() {
       // 3. Move to payment
       router.push('/checkout/pay');
     } catch (e: any) {
-      setErr(e?.message || 'Verification failed');
+      // Surface the real error so we can debug
+      console.error('[OTP submit] stage=', stage, e);
+      const detail = e?.message || String(e) || 'Unknown error';
+      setErr(`${stage}: ${detail}`);
       setLoading(false);
     }
   };
