@@ -3,23 +3,18 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Screen } from '@/components/Screen';
+import { NumberPicker } from '@/components/NumberPicker';
 import { useFunnelStore } from '@/store/useFunnelStore';
 import { nextStep, stepIndex, TOTAL_STEPS } from '../steps';
 
 export default function AgeStep() {
   const router = useRouter();
   const initial = useFunnelStore((s) => s.age);
-  const set = useFunnelStore((s) => s.set);
-  const [value, setValue] = useState<string>(initial ? String(initial) : '');
-  const [err, setErr] = useState('');
+  const setStore = useFunnelStore((s) => s.set);
+  const [age, setAge] = useState<number>(initial ?? 28);
 
   const submit = () => {
-    const n = parseInt(value, 10);
-    if (isNaN(n) || n < 13 || n > 100) {
-      setErr('Please enter an age between 13 and 100.');
-      return;
-    }
-    set('age', n);
+    setStore('age', age);
     router.push(nextStep('age'));
   };
 
@@ -28,22 +23,9 @@ export default function AgeStep() {
       step={stepIndex('age')}
       total={TOTAL_STEPS}
       title="How old are you?"
-      footer={
-        <button className="btn-primary" onClick={submit} disabled={!value}>
-          Continue
-        </button>
-      }
+      footer={<button className="btn-primary" onClick={submit}>Continue</button>}
     >
-      <input
-        type="number"
-        inputMode="numeric"
-        value={value}
-        onChange={(e) => { setValue(e.target.value); setErr(''); }}
-        placeholder="e.g. 28"
-        className="w-full text-5xl font-bold text-center bg-transparent border-b-2 border-border focus:border-green outline-none py-3"
-        autoFocus
-      />
-      {err && <p className="text-warning text-sm mt-3 text-center">{err}</p>}
+      <NumberPicker min={18} max={100} value={age} onChange={setAge} suffix="yrs" />
     </Screen>
   );
 }

@@ -23,3 +23,6 @@ html, body {
     @apply bg-surface border border-border rounded-2xl p-5;
   }
 }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
