@@ -37,7 +37,7 @@ export default function PayStep() {
         amount: checkout.amount,
         currency: 'INR',
         name: 'Numo AI',
-        description: '1-Day Trial — ₹1 only',
+        description: 'Trial ₹1 today, then ₹699/quarter. Cancel anytime.',
         order_id: checkout.orderId,
         customer_id: checkout.customerId,
         recurring: 1,
