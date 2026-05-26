@@ -40,16 +40,9 @@ export default function PayStep() {
         description: 'Trial ₹1 today, then ₹699/quarter. Cancel anytime.',
         order_id: checkout.orderId,
         customer_id: checkout.customerId,
-        recurring: 1,
-        // Keep method config explicit so we can verify what Razorpay returns.
-        method: {
-          upi: 1,
-          card: 1,
-          netbanking: 1,
-          wallet: 0,
-          emi: 0,
-          paylater: 0,
-        },
+        // Razorpay docs use boolean true for tokenization. Don't filter methods —
+        // let Razorpay show every recurring-eligible method per the order config.
+        recurring: true,
         prefill: { contact: phone },
         theme: { color: '#2E7D32' },
         handler: async (resp: any) => {
