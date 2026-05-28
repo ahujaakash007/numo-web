@@ -5,6 +5,7 @@ import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useFunnelStore } from '@/store/useFunnelStore';
 import { trackPixel } from '@/lib/pixel';
+import { Footer } from '@/components/Footer';
 
 function UtmCapture() {
   const params = useSearchParams();
@@ -47,6 +48,8 @@ export default function Landing() {
           Takes ~2 mins. No commitment.
         </p>
       </div>
+
+      <Footer />
     </main>
   );
 }

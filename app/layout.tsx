@@ -3,7 +3,7 @@ import './globals.css';
 import { PixelScript } from '@/lib/pixel';
 
 export const metadata: Metadata = {
-  title: 'Numo — Your AI calorie coach',
+  title: 'Numo — Your AI calorie coach by Inspiration Tech',
   description: 'Get your personalised nutrition plan. Scan meals, hit your goals.',
 };
 
