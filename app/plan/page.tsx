@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useFunnelStore } from '@/store/useFunnelStore';
 import { computePlan, projectedGoalDate } from '@/lib/calorieMath';
 import { trackPixel } from '@/lib/pixel';
+import { TESTIMONIALS } from '@/lib/testimonials';
 
 export default function PlanReveal() {
   const router = useRouter();
@@ -72,6 +73,24 @@ export default function PlanReveal() {
       {plan.warning && (
         <p className="text-warning text-xs text-center mt-3 px-4">{plan.warning}</p>
       )}
+
+      {/* Social proof */}
+      <h2 className="text-xl font-bold mt-8 mb-3">Why people stay with Numo</h2>
+      <div className="space-y-3">
+        {TESTIMONIALS.map((t, i) => (
+          <div key={i} className="card">
+            <div className="text-[#F5A623] text-sm tracking-wide">{'★'.repeat(t.stars)}</div>
+            <p className="text-ink mt-1.5">“{t.quote}”</p>
+            <div className="flex items-center gap-2 mt-2">
+              <div className="w-7 h-7 rounded-full bg-greenSoft text-green font-bold text-xs flex items-center justify-center">
+                {t.name.charAt(0)}
+              </div>
+              <span className="text-sm text-inkMuted flex-1">{t.name}, {t.city}</span>
+              <span className="text-xs font-bold text-green bg-greenSoft rounded-full px-2 py-0.5">{t.result}</span>
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* Sticky paywall bottom sheet */}
       <div className="fixed left-0 right-0 bottom-0 bg-surface shadow-2xl rounded-t-3xl px-6 pt-5 pb-8 max-w-md mx-auto border-t border-border">

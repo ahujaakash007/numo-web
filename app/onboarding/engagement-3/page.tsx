@@ -76,8 +76,9 @@ export default function Engagement3() {
               stroke="#2E7D32"
               strokeWidth="6"
               strokeLinecap="round"
-              strokeDasharray={`${(progress / 100) * 276.5} 276.5`}
-              style={{ transition: 'stroke-dasharray 0.1s linear' }}
+              strokeDasharray={276.46}
+              strokeDashoffset={276.46 * (1 - progress / 100)}
+              style={{ transition: 'stroke-dashoffset 0.08s linear' }}
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">

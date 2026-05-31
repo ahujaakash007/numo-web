@@ -7,14 +7,16 @@ export const ONBOARDING_STEPS = [
   'age',
   'height',
   'weight',
-  'engagement-1',
   'goal-weight',
+  'engagement-1',
   'pace',
+  'obstacles',
+  'diet',
   'workouts',
   'engagement-2',
-  'meals',
   'habits',
   'experience',
+  'trust',
   'engagement-3',
 ] as const;
 

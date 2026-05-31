@@ -54,6 +54,8 @@ export default function OtpStep() {
         meals_per_day: s.meals_per_day,
         habit_changes: s.habit_changes,
         prior_experience: s.prior_experience,
+        diet_type: s.diet_type,
+        obstacles: s.obstacles,
         name: s.name,
         source: 'web',
       });

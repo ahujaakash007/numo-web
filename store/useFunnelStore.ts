@@ -8,6 +8,9 @@ export type MealsBand = '1' | '2' | '3' | '4' | '5+';
 export type HabitChange =
   | 'less_sugar' | 'less_junk' | 'stop_binge' | 'more_greens' | 'less_stress_eating' | 'cook_more';
 export type PriorExperience = 'new' | 'tried_quit' | 'currently_counting';
+export type DietType = 'vegetarian' | 'non_vegetarian' | 'vegan' | 'veg_with_eggs';
+export type Obstacle =
+  | 'inconsistency' | 'bad_eating' | 'no_support' | 'busy_schedule' | 'emotional_eating' | 'dont_know_what_to_eat';
 
 export interface FunnelState {
   goal?: Goal;
@@ -21,6 +24,8 @@ export interface FunnelState {
   meals_per_day?: MealsBand;
   habit_changes: HabitChange[];
   prior_experience?: PriorExperience;
+  diet_type?: DietType;
+  obstacles: Obstacle[];
   name?: string;
   utm_source?: string;
   utm_campaign?: string;
@@ -31,11 +36,12 @@ export interface FunnelState {
 interface FunnelActions {
   set: <K extends keyof FunnelState>(key: K, value: FunnelState[K]) => void;
   toggleHabit: (h: HabitChange) => void;
+  toggleObstacle: (o: Obstacle) => void;
   captureUtms: (params: URLSearchParams) => void;
   reset: () => void;
 }
 
-const initial: FunnelState = { habit_changes: [] };
+const initial: FunnelState = { habit_changes: [], obstacles: [] };
 
 const safeStorage = () => {
   if (typeof window === 'undefined') {
@@ -52,6 +58,10 @@ export const useFunnelStore = create<FunnelState & FunnelActions>()(
       toggleHabit: (h) => {
         const cur = get().habit_changes;
         set({ habit_changes: cur.includes(h) ? cur.filter((x) => x !== h) : [...cur, h] });
+      },
+      toggleObstacle: (o) => {
+        const cur = get().obstacles;
+        set({ obstacles: cur.includes(o) ? cur.filter((x) => x !== o) : [...cur, o] });
       },
       captureUtms: (params) => {
         const u: Partial<FunnelState> = {};
