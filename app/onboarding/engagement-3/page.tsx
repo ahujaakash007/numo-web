@@ -80,7 +80,6 @@ export default function Engagement3() {
               strokeLinecap="round"
               strokeDasharray={276.46}
               strokeDashoffset={276.46 * (1 - progress / 100)}
-              style={{ transition: 'stroke-dashoffset 0.08s linear' }}
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
