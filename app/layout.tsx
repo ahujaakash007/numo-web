@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { PixelScript } from '@/lib/pixel';
+import { GoogleAnalytics } from '@/lib/ga';
 
 export const metadata: Metadata = {
   title: 'Numo — Your AI calorie coach by Inspiration Tech',
@@ -15,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen bg-bg text-ink">
         <PixelScript />
+        <GoogleAnalytics />
         {children}
       </body>
     </html>

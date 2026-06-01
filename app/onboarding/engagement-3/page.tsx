@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFunnelStore } from '@/store/useFunnelStore';
 import { trackPixel } from '@/lib/pixel';
+import { gaEvent } from '@/lib/ga';
 import { Stepper } from '@/components/Stepper';
 import { stepIndex, TOTAL_STEPS } from '../steps';
 
@@ -23,6 +24,7 @@ export default function Engagement3() {
 
   useEffect(() => {
     trackPixel('CompleteRegistration');
+    gaEvent('complete_registration');
     let cancelled = false;
 
     const run = async () => {

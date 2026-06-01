@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useFunnelStore } from '@/store/useFunnelStore';
 import { computePlan, projectedGoalDate } from '@/lib/calorieMath';
 import { trackPixel } from '@/lib/pixel';
+import { gaEvent } from '@/lib/ga';
 import { TESTIMONIALS } from '@/lib/testimonials';
 
 export default function PlanReveal() {
@@ -34,6 +35,7 @@ export default function PlanReveal() {
 
   const startTrial = () => {
     trackPixel('InitiateCheckout', { currency: 'INR', value: 1 });
+    gaEvent('begin_checkout', { currency: 'INR', value: 1 });
     router.push('/checkout/phone');
   };
 

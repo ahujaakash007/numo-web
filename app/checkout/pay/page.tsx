@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Script from 'next/script';
 import { api, type ApiResponse } from '@/lib/api';
+import { trackPixel } from '@/lib/pixel';
+import { gaEvent } from '@/lib/ga';
 
 interface TrialCheckoutResp {
   orderId: string;
@@ -67,6 +69,10 @@ export default function PayStep() {
         },
       });
       rzp.open();
+      // UPI/payment sheet opened — higher-volume signal than Purchase and a
+      // useful fallback optimization event if trial volume is too sparse.
+      trackPixel('AddPaymentInfo', { currency: 'INR', value: 1 });
+      gaEvent('add_payment_info', { currency: 'INR', value: 1 });
       setLoading(false);
     } catch (e: any) {
       setLoading(false);

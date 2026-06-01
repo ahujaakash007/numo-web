@@ -5,6 +5,7 @@ import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useFunnelStore } from '@/store/useFunnelStore';
 import { trackPixel } from '@/lib/pixel';
+import { gaEvent } from '@/lib/ga';
 import { Footer } from '@/components/Footer';
 
 function UtmCapture() {
@@ -68,7 +69,7 @@ export default function Landing() {
         <Link
           href="/onboarding/goal"
           className="btn-primary block text-center"
-          onClick={() => trackPixel('Lead')}
+          onClick={() => { trackPixel('Lead'); gaEvent('generate_lead'); }}
         >
           Get my free plan →
         </Link>
