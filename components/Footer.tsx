@@ -29,6 +29,15 @@ export function Footer() {
           Terms
         </a>
         {' · '}
+        <a
+          href="https://numo-backend-production.up.railway.app/refund"
+          className="underline hover:text-ink"
+          target="_blank"
+          rel="noopener"
+        >
+          Refund
+        </a>
+        {' · '}
         <a href="mailto:support@numo.ai" className="underline hover:text-ink">
           support@numo.ai
         </a>

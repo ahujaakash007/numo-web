@@ -114,8 +114,17 @@ export default function PlanReveal() {
           Start ₹1 Trial →
         </button>
 
-        <p className="text-xs text-inkMuted text-center mt-3">
-          Then ₹699/quarter (₹233/mo). Cancel anytime before trial ends.
+        <p className="text-xs text-inkMuted text-center mt-3 leading-relaxed">
+          By continuing, you authorise Numo AI to auto-debit <strong>₹699 every 3 months</strong> via UPI
+          Autopay after your 1-day ₹1 trial, until you cancel. You'll get a reminder ~24h before each
+          charge. Cancel anytime in the app or via support.
+        </p>
+        <p className="text-[11px] text-inkMuted text-center mt-2">
+          <a href="https://numo-backend-production.up.railway.app/terms" target="_blank" rel="noopener" className="underline">Terms</a>
+          {' · '}
+          <a href="https://numo-backend-production.up.railway.app/privacy" target="_blank" rel="noopener" className="underline">Privacy</a>
+          {' · '}
+          <a href="https://numo-backend-production.up.railway.app/refund" target="_blank" rel="noopener" className="underline">Refund</a>
         </p>
       </div>
     </main>
