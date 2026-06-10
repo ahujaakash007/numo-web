@@ -20,7 +20,8 @@ export default function Success() {
       <div className="text-6xl mb-4">🎉</div>
       <h1 className="text-3xl font-bold leading-tight">You're in!</h1>
       <p className="mt-3 text-inkSoft">
-        Your trial is active. Now download the app to start tracking.
+        Your ₹1 trial is <strong className="text-green">active and saved to your number</strong> —
+        nothing else to set up. Two quick steps:
       </p>
 
       <div className="card mt-8 w-full">
@@ -31,6 +32,7 @@ export default function Success() {
           className="btn-primary mt-4 block text-center"
           target="_blank"
           rel="noopener"
+          onClick={() => gaEvent('play_store_click', { source: 'success_page' })}
         >
           Open Play Store →
         </a>
@@ -43,7 +45,7 @@ export default function Success() {
           {phone || 'your phone number'}
         </div>
         <p className="text-xs text-inkMuted mt-2">
-          Use the same number — your plan and trial will be waiting.
+          Same number = your plan and trial load automatically. No new account, no re-payment.
         </p>
       </div>
 

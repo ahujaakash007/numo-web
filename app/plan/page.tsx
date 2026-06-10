@@ -107,7 +107,11 @@ export default function PlanReveal() {
             <span className="text-2xl font-bold text-green mt-2">₹</span>
             <span className="text-6xl font-extrabold text-green leading-none">1</span>
           </div>
-          <div className="text-sm text-inkSoft mt-1">for 1 day · full access · cancel anytime</div>
+          <div className="text-sm text-inkSoft mt-1">for 1 day · full access</div>
+          {/* The recurring price lives INSIDE the price card, not in fine print —
+              clearer for the user and safer for us. */}
+          <div className="text-base font-bold text-ink mt-2">then ₹699 / 3 months</div>
+          <div className="text-xs text-inkMuted mt-0.5">auto-debits via UPI · cancel anytime</div>
         </div>
 
         <button onClick={startTrial} className="btn-primary mt-4">
@@ -115,7 +119,7 @@ export default function PlanReveal() {
         </button>
 
         <p className="text-xs text-inkMuted text-center mt-3 leading-relaxed">
-          By continuing, you authorise Numo AI to auto-debit <strong>₹699 every 3 months</strong> via UPI
+          By continuing, you authorise Numo AI to auto-debit ₹699 every 3 months via UPI
           Autopay after your 1-day ₹1 trial, until you cancel. You'll get a reminder ~24h before each
           charge. Cancel anytime in the app or via support.
         </p>

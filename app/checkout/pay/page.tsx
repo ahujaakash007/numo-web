@@ -64,7 +64,8 @@ export default function PayStep() {
           ondismiss: () => {
             setLoading(false);
             opened.current = false;
-            setErr('Payment cancelled. Tap below to try again.');
+            setErr('cancelled');
+            gaEvent('checkout_dismissed', {});
           },
         },
       });
@@ -91,14 +92,33 @@ export default function PayStep() {
       <main className="max-w-md mx-auto px-6 py-20 text-center min-h-screen flex flex-col items-center justify-center">
         <div className="text-5xl mb-4">💳</div>
         <h1 className="text-2xl font-bold">
-          {loading ? 'Opening payment…' : 'Razorpay closed'}
+          {loading ? 'Opening payment…' : 'Almost there'}
         </h1>
         <p className="text-inkSoft mt-2">₹1 to activate your trial</p>
-        {err && <p className="text-warning text-sm mt-4 max-w-xs">{err}</p>}
+        {err && (
+          <div className="mt-5 max-w-xs rounded-xl border border-border bg-surface p-4 text-left">
+            <p className="text-sm font-semibold text-ink">
+              {err === 'cancelled' ? 'Payment window closed' : err}
+            </p>
+            <p className="text-xs text-inkSoft mt-2 leading-relaxed">
+              <strong>UPI tip:</strong> after tapping pay, open your UPI app (GPay / PhonePe / Paytm)
+              right away — there's an autopay approval waiting that expires in a few minutes.
+              If it timed out, just try again.
+            </p>
+          </div>
+        )}
         {!loading && (
-          <button onClick={openRazorpay} className="btn-primary mt-6 max-w-xs">
-            Open payment
-          </button>
+          <>
+            <button onClick={openRazorpay} className="btn-primary mt-6 max-w-xs">
+              {err ? 'Try again' : 'Open payment'}
+            </button>
+            <a
+              href="mailto:support@numo.ai?subject=Payment%20issue"
+              className="text-xs text-green underline mt-4"
+            >
+              Having trouble? Email support
+            </a>
+          </>
         )}
       </main>
     </>
