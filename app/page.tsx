@@ -67,7 +67,7 @@ export default function Landing() {
       {/* CTA */}
       <div className="mt-auto pt-8">
         <Link
-          href="/onboarding/name"
+          href="/onboarding/goal"
           className="btn-primary block text-center"
           onClick={() => { trackPixel('Lead'); gaEvent('generate_lead'); }}
         >

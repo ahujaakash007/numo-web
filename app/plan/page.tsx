@@ -16,7 +16,7 @@ export default function PlanReveal() {
     return (
       <div className="max-w-md mx-auto px-6 py-12 text-center">
         <p className="text-inkSoft">Missing onboarding data.</p>
-        <button onClick={() => router.push('/onboarding/name')} className="btn-primary mt-4">Start over</button>
+        <button onClick={() => router.push('/onboarding/goal')} className="btn-primary mt-4">Start over</button>
       </div>
     );
   }
