@@ -2,6 +2,7 @@
 // derive previous/next routes.
 
 export const ONBOARDING_STEPS = [
+  'name',
   'goal',
   'gender',
   'age',
