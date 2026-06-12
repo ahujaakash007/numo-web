@@ -25,20 +25,34 @@ export default function OtpStep() {
     let stage = 'init';
     try {
       const phone = sessionStorage.getItem('numo_phone') || '';
-      const confirm = window._confirm;
-      if (!confirm) throw new Error('OTP session expired — please go back and request a new code');
+      const otpMode = sessionStorage.getItem('numo_otp_mode') || 'firebase';
 
-      stage = 'firebase-confirm';
-      const credential = await confirm.confirm(otp);
-      const idToken = await credential.user.getIdToken();
+      let accessToken: string;
+      if (otpMode === 'backend') {
+        // Backend-owned OTP — verify directly, no Firebase.
+        stage = 'backend-verify';
+        const { data: auth } = await api.post<ApiResponse<AuthResp>>(
+          '/auth/otp/verify',
+          { phone, otp }
+        );
+        accessToken = auth.accessToken;
+      } else {
+        const confirm = window._confirm;
+        if (!confirm) throw new Error('OTP session expired — please go back and request a new code');
 
-      // 1. Login on Numo backend (creates user if new)
-      stage = 'backend-login';
-      const { data: auth } = await api.post<ApiResponse<AuthResp>>(
-        '/auth/firebase-phone',
-        { idToken, phone }
-      );
-      setToken(auth.accessToken);
+        stage = 'firebase-confirm';
+        const credential = await confirm.confirm(otp);
+        const idToken = await credential.user.getIdToken();
+
+        // Login on Numo backend (creates user if new)
+        stage = 'backend-login';
+        const { data: auth } = await api.post<ApiResponse<AuthResp>>(
+          '/auth/firebase-phone',
+          { idToken, phone }
+        );
+        accessToken = auth.accessToken;
+      }
+      setToken(accessToken);
 
       // 2. Save onboarding answers
       stage = 'save-onboarding';

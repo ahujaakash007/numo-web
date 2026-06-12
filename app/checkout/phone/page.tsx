@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Screen } from '@/components/Screen';
+import { api, type ApiResponse } from '@/lib/api';
 import { getFirebase } from '@/lib/firebase';
 import { RecaptchaVerifier, signInWithPhoneNumber, type ConfirmationResult } from 'firebase/auth';
 
@@ -40,14 +41,39 @@ export default function PhoneStep() {
   const submit = async () => {
     if (digits.length !== 10) { setErr('Enter a 10-digit number'); return; }
     setLoading(true); setErr('');
+    const phone = `+91${digits}`;
+
+    // Fast path: backend-owned OTP over Indian SMS routes — no reCAPTCHA,
+    // no Firebase. Server replies provider:'firebase' when its SMS provider
+    // isn't configured, in which case we fall through below.
+    try {
+      const { data } = await api.post<ApiResponse<{ provider: 'sms' | 'firebase' }>>(
+        '/auth/otp/send',
+        { phone }
+      );
+      if (data.provider === 'sms') {
+        sessionStorage.setItem('numo_phone', phone);
+        sessionStorage.setItem('numo_otp_mode', 'backend');
+        router.push('/checkout/otp');
+        return;
+      }
+    } catch (e: any) {
+      // Rate limits are real answers — show them. Other errors fall through.
+      if (/wait|too many/i.test(e?.message || '')) {
+        setErr(e.message);
+        setLoading(false);
+        return;
+      }
+    }
+
     try {
       const fb = getFirebase();
       if (!fb) throw new Error('Auth not ready');
       const verifier = ensureVerifier();
-      const phone = `+91${digits}`;
       const confirmation = await signInWithPhoneNumber(fb.auth, phone, verifier);
       window._confirm = confirmation;
       sessionStorage.setItem('numo_phone', phone);
+      sessionStorage.setItem('numo_otp_mode', 'firebase');
       router.push('/checkout/otp');
     } catch (e: any) {
       console.error('[phone submit]', e);
