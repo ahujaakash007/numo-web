@@ -45,7 +45,11 @@ export default function PayStep() {
         // Razorpay docs use boolean true for tokenization. Don't filter methods —
         // let Razorpay show every recurring-eligible method per the order config.
         recurring: true,
-        prefill: { contact: phone },
+        // Email prefilled too — without it Razorpay's form still stops to ask.
+        prefill: {
+          contact: phone.replace(/\D/g, '').slice(-10),
+          email: `${phone.replace(/\D/g, '').slice(-10)}@thenumoai.online`,
+        },
         theme: { color: '#2E7D32' },
         handler: async (resp: any) => {
           try {
