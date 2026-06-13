@@ -18,7 +18,7 @@ export default function Success() {
   return (
     <main className="max-w-md mx-auto px-6 pt-16 pb-12 flex flex-col items-center text-center min-h-screen">
       <div className="text-6xl mb-4">🎉</div>
-      <h1 className="text-3xl font-bold leading-tight">You're in!</h1>
+      <h1 className="text-3xl font-serif font-semibold leading-tight tracking-tight">You're in!</h1>
       <p className="mt-3 text-inkSoft">
         Your ₹1 trial is <strong className="text-green">active and saved to your number</strong> —
         nothing else to set up. Two quick steps:

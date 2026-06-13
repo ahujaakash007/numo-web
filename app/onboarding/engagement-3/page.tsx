@@ -87,7 +87,7 @@ export default function Engagement3() {
           </div>
         </div>
 
-        <h2 className="mt-10 text-2xl font-bold text-ink min-h-[2.5rem]">{stage.label}</h2>
+        <h2 className="mt-10 text-2xl font-serif font-semibold text-ink min-h-[2.5rem]">{stage.label}</h2>
         <p className="mt-2 text-base text-inkSoft min-h-[1.5rem]">{stage.detail(s)}</p>
 
         {/* Stage list */}

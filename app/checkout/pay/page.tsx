@@ -95,7 +95,7 @@ export default function PayStep() {
       />
       <main className="max-w-md mx-auto px-6 py-20 text-center min-h-screen flex flex-col items-center justify-center">
         <div className="text-5xl mb-4">💳</div>
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-2xl font-serif font-semibold">
           {loading ? 'Opening payment…' : 'Almost there'}
         </h1>
         <p className="text-inkSoft mt-2">₹1 to activate your trial</p>

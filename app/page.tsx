@@ -23,7 +23,7 @@ export default function Landing() {
       <Suspense fallback={null}><UtmCapture /></Suspense>
 
       {/* Brand */}
-      <div className="text-center text-green font-extrabold tracking-tight text-2xl">
+      <div className="text-center text-green font-serif font-semibold tracking-tight text-2xl">
         numo<span className="text-coral"> ai</span>
       </div>
 
@@ -32,7 +32,7 @@ export default function Landing() {
         <div className="inline-block bg-greenSoft text-green text-xs font-bold tracking-wide px-3 py-1 rounded-full">
           📸 AI CALORIE TRACKING FOR INDIAN FOOD
         </div>
-        <h1 className="mt-5 text-[2.3rem] leading-[1.08] font-extrabold text-ink">
+        <h1 className="mt-5 text-[2.3rem] leading-[1.08] font-serif font-semibold tracking-tight text-ink">
           Snap your plate.<br />Skip the maths.
         </h1>
       </div>

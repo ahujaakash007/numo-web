@@ -41,7 +41,7 @@ export default function PlanReveal() {
 
   return (
     <main className="max-w-md mx-auto px-6 pt-8 pb-32 relative">
-      <h1 className="text-3xl font-bold">Your plan is ready 🎉</h1>
+      <h1 className="text-3xl font-serif font-semibold tracking-tight">Your plan is ready 🎉</h1>
 
       {/* Daily calorie target — blurred */}
       <div className="card mt-6 relative overflow-hidden">
@@ -77,7 +77,7 @@ export default function PlanReveal() {
       )}
 
       {/* Social proof */}
-      <h2 className="text-xl font-bold mt-8 mb-3">Why people stay with Numo</h2>
+      <h2 className="text-xl font-serif font-semibold mt-8 mb-3">Why people stay with Numo</h2>
       <div className="space-y-3">
         {TESTIMONIALS.map((t, i) => (
           <div key={i} className="card">
@@ -97,7 +97,7 @@ export default function PlanReveal() {
       {/* Sticky paywall bottom sheet */}
       <div className="fixed left-0 right-0 bottom-0 bg-surface shadow-2xl rounded-t-3xl px-6 pt-5 pb-8 max-w-md mx-auto border-t border-border">
         <div className="w-10 h-1 bg-border rounded-full mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-center">Unlock your plan</h2>
+        <h2 className="text-2xl font-serif font-semibold text-center">Unlock your plan</h2>
 
         <div className="mt-4 rounded-2xl border-2 border-green bg-greenSoft p-5 text-center">
           <div className="inline-block bg-green text-white text-xs font-bold tracking-wider px-3 py-1 rounded-full mb-2">
