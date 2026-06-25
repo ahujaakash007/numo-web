@@ -1,6 +1,7 @@
-/* Brand fonts — Fraunces (display serif) + Instrument Sans (body), matching the
-   mobile app. @import must precede the Tailwind layers. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600;700&display=swap');
+/* "Steel & Haldi" brand fonts — Bricolage Grotesque (display) + Hanken Grotesk
+   (body) + JetBrains Mono (the count), matching the mobile app. @import must
+   precede the Tailwind layers. */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -11,9 +12,9 @@
 }
 
 html, body {
-  background-color: #FDF9F3;
-  color: #1C1917;
-  font-family: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+  background-color: #EEF1F2;
+  color: #161A1D;
+  font-family: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
